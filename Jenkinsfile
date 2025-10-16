@@ -23,11 +23,7 @@ pipeline {
                     sh "ls"
                     sh "pwd"
                     sh "whoami"
-                    sh '''
-                    apt-get update
-                    apt-get install -y sudo
-                    sudo docker ps -a
-                    '''
+                    sh "docker ps -a"
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
