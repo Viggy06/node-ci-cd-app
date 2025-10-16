@@ -6,12 +6,35 @@ pipeline {
         IMAGE_TAG = "latest"
     }
 
-    stages {
+    parameters {
+        string(name: 'EC2_HOST', defaultValue: 'ubuntu@13.233.38.146', description: 'EC2 SSH target (user@host)')
+        credentials(name: 'EC2_CREDENTIALS', defaultValue: 'ec2-ssh-key', description: 'EC2 SSH key credential')
+    }
 
+    stages {
+        
         stage('Checkout Code') {
             steps {
                 echo "Cloning repository..."
                 checkout scm
+            }
+        }
+
+        stage('Connect to EC2') {
+            steps {
+                script {
+                    echo "Connecting to EC2: ${params.EC2_HOST}"
+
+                    sshagent([params.EC2_CREDENTIALS]) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${params.EC2_HOST} '
+                                echo "✅ Connected successfully to EC2"
+                                whoami
+                                hostname
+                            '
+                        """
+                    }
+                }
             }
         }
 
