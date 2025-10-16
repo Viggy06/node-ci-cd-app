@@ -23,7 +23,7 @@ pipeline {
                     sh "ls"
                     sh "pwd"
                     sh "whoami"
-                    sh "docker ps -a"
+                    sh "sudo docker ps -a"
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
