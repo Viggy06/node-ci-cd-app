@@ -30,7 +30,8 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no ${params.EC2_HOST} '
                                 echo "✅ Connected successfully to EC2"
                                 whoami
-                                hostname
+                                pwd
+                                ls
                             '
                         """
                     }
